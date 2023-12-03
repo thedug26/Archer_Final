@@ -11,6 +11,9 @@ from archer_background import *
 pygame.init()
 # create clock
 clock = pygame.time.Clock()
+#have music play the entire game
+sound=pygame.mixer.Sound("../Archer_Final/assets/Archer_Sounds/hitman.wav")
+pygame.mixer.Sound.play(sound)
 
 # Create a timer to end the game after X seconds
 start_ticks=pygame.time.get_ticks()#starter tick
@@ -36,6 +39,7 @@ draw_background(background)
 
 # Main game loop
 score = 0
+added_score = False
 
 while running:
     # Check for events
@@ -55,22 +59,43 @@ while running:
     # Update the adventurer & arrows
     my_adventurer.update()
     arrows.update()
+    my_target.update(arrows)
+    # print(arrows)
 
     # Draw the adventurer, arrows, & target
     #[b.draw(my_target, screen) for b in arrows]
-    for b in arrows:
-        b.draw(my_target, screen)
-        score += b.score
-        if b.score:
-            b.kill()
+    # for b in arrows:
+    #     b.draw(my_target, screen)
+    #     if b.score:
+    #         score += 1
+    #     print(score)
+
+        # if not added_score and b.score:
+        #     score += b.score
+        #     added_score = True
+        # if added_score and not b.score:
+        #     added_score = False
+        # if b.score:
+        #     b.kill()
     #create timer
     seconds = (pygame.time.get_ticks() - start_ticks) // 1000  # calculate how many seconds
     if seconds > 60:  # if more than 10 seconds close the game
-        break
-    print(score)
+        break #Remi Nguyen helped me with this timer part of my code
+
+    # print(score)
 
     my_adventurer.draw()
     my_target.draw()
+
+    for b in arrows:
+        b.draw(my_target, screen)
+        if b.score:
+            score += 1
+        print(score)
+
+
+
+
     score_font = pygame.font.Font("../Archer_Final/assets/fonts/Kenney Future.ttf", 48)
     #timer and score texts
     text = score_font.render(f'Score: {score}', True, (255, 0, 0))
