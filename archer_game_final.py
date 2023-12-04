@@ -53,7 +53,7 @@ while running:
     # Set the game's FPS
     clock.tick(120)
 
-    screen.fill('black')
+    #screen.fill('black')
 
     screen.blit(background, (0, 0))
     # Update the adventurer & arrows
